@@ -27,7 +27,12 @@ About an ETL pipeline for a data lake hosted on S3.
    - [Web-links](#web-links)
 
 ---
+# TODO
+* dans set up, fichier work/equirement.txt, enlever les installation non utilisees
+* 
 
+
+----
 ## About the project
 
 ## Purpose
@@ -64,6 +69,44 @@ And below is an example of what the data in a log file, 2018-11-12-events.json, 
 ![log dataset image](./image/log_dataset.png)
 
 ### To Run
+
+### Setup Docker
+
+You may have Docker in your machine.
+I have [Systemd](https://www.digitalocean.com/community/tutorials/how-to-use-systemctl-to-manage-systemd-services-and-units) as system manager and use `systemctl start docker` for example. 
+I choose to work with the swarm mode to learn about Docker machine. [Getting started with swarm mode](https://docs.docker.com/engine/swarm/swarm-tutorial/)
+
+1. In a directory, clone this project from GitHub:
+```sh
+https://github.com/anthelix/udacity_project4.git
+```
+2. In mydemo, create $PWD/data/postgres directory for PostgreSQL files:   
+`cd udacity_project4`  
+`mkdir -p ./data/postgres`
+
+3. Optional, for local development, install Python packages: (psycopg2-binary, #bokeh, #plotly, #chart_studio, numpy, #scipy, python-dotenv)  
+`pip3 install --upgrade pip --user`  
+`python3 -m pip install -r worflow/config/requirements.txt`
+
+4. Optional, pull docker images first, it's faster.  
+`systemctl start docker`  
+`docker pull jupyter/all-spark-notebook:latest`  
+`docker pull postgres:12-alpine`  
+`docker pull adminer:latest`
+
+5. Init the swarm mode and the master node by default
+`docker swarm init` 
+
+6. Deploy Docker Stack from the `udacity_project4` directory  
+`docker stack deploy -c stack.yml jupyter`    
+And to check : `docker stack ps jupyter --no-trunc`
+
+7. Retrieve the token to log into Jupyter. 
+`docker logs $(docker ps | grep jupyter_spark | awk '{print $NF}')`. Crl + click on the lst of tree
+
+8. From the Jupyter terminal, run the install script:   
+`sh ./config/config_jupyter.sh`
+
 
 ## Worflow
 
