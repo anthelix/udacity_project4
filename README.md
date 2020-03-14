@@ -1,6 +1,6 @@
 ##### Udacity Data Engineering Nanodegree
 
-<img alt="" align="right" width="150" height="150" src = "./image/aws_logo.png" title = "aws logo" alt = "aws logo">  
+<img alt="" align="right" width="150" height="150" src = "./image/logoSpark.jpg" title = "spark logo" alt = "spark logo">  
 </br>
 </br>
 </br>
