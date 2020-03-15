@@ -108,6 +108,9 @@ And to check : `docker stack ps jupyter --no-trunc`
 `sh ./config/config_jupyter.sh`
 
 
+`docker stack rm jupyter`
+
+
 ## Worflow
 
 ... step by step, how i Proceed in ETL
