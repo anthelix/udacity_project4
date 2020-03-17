@@ -35,7 +35,15 @@ About an ETL pipeline for a data lake hosted on S3.
 ----
 ## About the project
 
+A music streaming startup, Sparkify, has grown their user base and song database even more and want to move their data warehouse to a data lake. Their data resides in S3, in a directory of JSON logs on user activity on the app, as well as a directory with JSON metadata on the songs in their app.
+They'd like a data engineer to build an ETL pipeline that extracts their data from Amazon S3, processes them using Spark, and loads the data into S3 as a set of dimmensionnal tables for their analytics team to continue finding insights in what songs their users are listening to.
+ 
 ## Purpose
+
+The purpose of this project is to build an ETL pipeline for data stored in S3, using Spark and Hadoop tools.
+* Load data from S3
+* Process data using Spark into analytics tables
+* Load the data results into S3
 
 ## Getting started
 
@@ -108,10 +116,42 @@ And to check : `docker stack ps jupyter --no-trunc`
 `sh ./config/config_jupyter.sh`
 
 
+
+
 `docker stack rm jupyter`
 
 
 ## Worflow
+
+In this project, we'll collecting input data to AWS S3, data will be loaded into AWS EMR for processing and the queries results will be stored back into AWS S3 as parquet files
+
+### Define a Star Schema
+
+* Schema for Song Play Analysis
+    * Fact Table
+        * songplays - records in log data associated with song plays i.e. records with page NextSong
+            * songplay_id, start_time, user_id, level, song_id, artist_id, session_id, location, user_agent
+
+* Dimension Tables
+    * users - users in the app
+        * user_id, first_name, last_name, gender, level
+    * songs - songs in music database
+        * song_id, title, artist_id, year, duration
+    * artists - artists in music database
+        * artist_id, name, location, lattitude, longitude
+    * time - timestamps of records in songplays broken down into specific units
+        * start_time, hour, day, week, month, year, weekday
+
+![schema](image/schema.png)
+
+
+### Collecting input data to AWS S3
+
+
+### Process the data with spark 
+
+
+### Write results tp parquet files
 
 ... step by step, how i Proceed in ETL
 
