@@ -29,7 +29,7 @@ About an ETL pipeline for a data lake hosted on S3.
 ---
 # TODO
 * dans set up, fichier work/equirement.txt, enlever les installation non utilisees
-* 
+* dans worflox, renommer example-dl.cfg en dl.cfg avant le push final  
 
 
 ----
