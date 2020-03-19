@@ -157,3 +157,5 @@ In this project, we'll collecting input data to AWS S3, data will be loaded into
 
 ## Web-links
 
+* [memo dropDuplicates()](https://stackoverflow.com/questions/38687212/spark-dataframe-drop-duplicates-and-keep-first)  
+* [StructType()](https://sparkbyexamples.com/spark/spark-sql-structtype-on-dataframe/)
