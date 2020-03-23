@@ -115,11 +115,17 @@ And to check : `docker stack ps jupyter --no-trunc`
 8. From the Jupyter terminal, run the install script:   
 `sh ./config/config_jupyter.sh`
 
-
-
-
+9. To stop the services:
 `docker stack rm jupyter`
 
+### Setup dl.cfg
+* Enter your credentials AWS in the dl.cfg
+    * please, don't write ant quote.
+    ```
+    [AWS]
+    KEY=XXXXXXX
+    SECRET=XXXXXXXXX
+    ```
 
 ## Worflow
 
