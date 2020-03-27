@@ -148,7 +148,7 @@ By default, datasets will be loaded from "udacity_project4/worflow/"
 * You may want use the jupyter notebook to run the **etl** process, open and run:  
 `03_DataFromS3.ipynb`. An other script inside, **04_checkData.py**, check the data and the parquet files. 
 
-* [Stop and delete Docker](#To-stop-the-docker)
+* [Stop and delete the Docker](#To-stop-the-services)
 
 * Delete the folder `udacity_project4`
 
@@ -178,7 +178,7 @@ This project run with Docker.
 * ***/worflow/log_data/*** and ***/worflow/song_data/*** : Folders of raw data to process localy.
 * ***/worflow/output/*** : Folder where the parquet files will be write if the ETl run localy, organized by tables. 
 * ***/worflow/myouput/*** : Example, my folder `ouput` after running `01_etl.py`.
-* ***/worflow/*** : Example, my `02_analyticals.ipynb` after running `01_etl.py`. 
+* ***/worflow/myanalyticals.ipynb*** : Example, my `02_analyticals.ipynb` after running `01_etl.py`. 
 
 In this project, we'll collecting input data to AWS S3, data will be loaded into AWS EMR for processing and the queries results will be stored back into AWS S3 as parquet files
 
