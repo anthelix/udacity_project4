@@ -11,41 +11,40 @@ About an ETL pipeline for a data lake hosted on S3.
 
 ### Table of contents
 
-   - [About the project](#about-the-project)
+   - [About The Project](#about-the-project)
    - [Purpose](#purpose)
-   - [Getting started](#getting-started)
-       - [Dataset](#dataset)
-       - [To run](#To-run)
+   - [Getting Started](#getting-started)
+        - [Dataset](#dataset)
+   - [To Run Localy](#To-run-localy)
+        - [Setup Docker](#Setup-Docker)
+        - [Setup Your Credentials](#Setup-your-credentials)
+        - [Run Scripts](#Run-scripts)    
    - [Worflow](#worflow)
-        - [Get the data](#Get-the-data)
-        - [Create a IAM user in redshift with your AWS](#Create-a-IAM-user-in-redshift-with-your-AWS)
-        - [Complete the `dwh.cfg` with parameters](#Complete-the-`dwh.cfg`-with-parameters)
-        - [Create the cluster](#Create-the-cluster)
-        - [Create tables](#Create-tables)
-        - [ETL](#ETL)
+        - [Define a Star Schema](#Define-a-Star-Schema)
         - [Sparkify Analytical](#Sparkify-Analytical)
    - [Web-links](#web-links)
 
----
 # TODO
 * dans set up, fichier work/equirement.txt, enlever les installation non utilisees
 * dans worflox, renommer example-dl.cfg en dl.cfg avant le push final  
 
 
-----
-## About the project
+## About The Project
+---
 
 A music streaming startup, Sparkify, has grown their user base and song database even more and want to move their data warehouse to a data lake. Their data resides in S3, in a directory of JSON logs on user activity on the app, as well as a directory with JSON metadata on the songs in their app.
 They'd like a data engineer to build an ETL pipeline that extracts their data from Amazon S3, processes them using Spark, and loads the data into S3 as a set of dimmensionnal tables for their analytics team to continue finding insights in what songs their users are listening to.
  
 ## Purpose
+---
 
 The purpose of this project is to build an ETL pipeline for data stored in S3, using Spark and Hadoop tools.
 * Load data from S3
 * Process data using Spark into analytics tables
 * Load the data results into S3
 
-## Getting started
+## Getting Started
+---
 
 ### Dataset
 
@@ -73,10 +72,11 @@ The log files in the dataset you'll be working with are partitioned by year and 
 log_data/2018/11/2018-11-12-events.json
 log_data/2018/11/2018-11-13-events.json
 ```
-And below is an example of what the data in a log file, 2018-11-12-events.json, looks like.
-![log dataset image](./image/log_dataset.png)
+And below is an example of what the data in a log file, 2018-11-12-events.json, looks like.  
+![log dataset image](image/log_dataset.png)
 
-### To Run
+## To Run localy
+---
 
 ### Setup Docker
 
@@ -86,48 +86,88 @@ I choose to work with the swarm mode to learn about Docker machine. [Getting sta
 
 1. In a directory, clone this project from GitHub:
 ```sh
-https://github.com/anthelix/udacity_project4.git
+git clone https://github.com/anthelix/udacity_project4.git
 ```
-2. In mydemo, create $PWD/data/postgres directory for PostgreSQL files:   
+2. In udacity_project4, create $PWD/data/postgres directory for PostgreSQL files:   
 `cd udacity_project4`  
 `mkdir -p ./data/postgres`
+Edit: I would like practice postgres and Docker, I do that later and focus to the datalake. So it's optionnal.
 
-3. Optional, for local development, install Python packages: (psycopg2-binary, #bokeh, #plotly, #chart_studio, numpy, #scipy, python-dotenv)  
+3. Optional, for local development, install Python packages: (psycopg2-binary, bokeh)    
 `pip3 install --upgrade pip --user`  
 `python3 -m pip install -r worflow/config/requirements.txt`
 
-4. Optional, pull docker images first, it's faster.  
+4. Optional, pull docker images first, it's faster.    
 `systemctl start docker`  
 `docker pull jupyter/all-spark-notebook:latest`  
 `docker pull postgres:12-alpine`  
 `docker pull adminer:latest`
 
-5. Init the swarm mode and the master node by default
+5. Init the swarm mode and the master node by default  
 `docker swarm init` 
 
-6. Deploy Docker Stack from the `udacity_project4` directory  
-`docker stack deploy -c stack.yml jupyter`    
+6. Deploy Docker Stack from the `udacity_project4` directory    
+`docker stack deploy -c stack.yml jupyter`      
 And to check : `docker stack ps jupyter --no-trunc`
 
-7. Retrieve the token to log into Jupyter. 
-`docker logs $(docker ps | grep jupyter_spark | awk '{print $NF}')`. Crl + click on the lst of tree
+7. Retrieve the token to log into Jupyter.   
+`docker logs $(docker ps | grep jupyter_spark | awk '{print $NF}')`.   
+Crl + click in the terminal, on the link beginning as `http://127.0.0...`
 
 8. From the Jupyter terminal, run the install script:   
 `sh ./config/config_jupyter.sh`
-
-9. To stop the services:
+ 
+9. To stop the services:  
 `docker stack rm jupyter`
 
-### Setup dl.cfg
-* Enter your credentials AWS in the dl.cfg
-    * please, don't write ant quote.
-    ```
+10. Then, to leave the docker swarn:  
+`docker swarn leave`
+
+11. To stop the docker:  
+
+12. To delete the images:  
+
+### Setup your credentials
+* Enter your credentials AWS in the `udacity_project4/workflow/dl.cfg` and keep them safe
+    * please, don't write any quote and save.
+    ```sql
     [AWS]
     KEY=XXXXXXX
     SECRET=XXXXXXXXX
     ```
+### Run scripts 
+* Go to the directory udacity_project4/worflow, open a terminal in Jupyter and run the the script to connect AWS S3, process datasets and write parquet file locally in worflow/ouput:  
+`python3 01_etl.py`
+
+* Check the parquet file in **worflow/output** and make some queries with parquet files, open and run:  
+`02_analyticals.ipynb`
+
+* You may want use the jupyter notebook to run the **etl** process, open and run:  
+`03_DataFromS3.ipynb`. An other script inside, **04_checkData.py**, check the data and the parquet files. 
+
+#### To run in AWS EMR (ELASTIC MAP REDUCE)
+* Create your own Amazon S3 Bucket and Amazon EMR cluster
+![memo](image/configEmr.png)
+![memo](image/config_s3bucket.png)
+
+* Update the outpath within `def main()` in  10_etl_emr.py to point your s3 bucket
+
+* Run `python 10_etl_emr.py` and check with `02_analyticals.ipynb` and your own `parquet_path` 
 
 ## Worflow
+---
+This project run with Docker. 
+* ***./worflow/config/*** : configuration files
+* ***./stack.yml*** : Dockerfile
+* ***./worflow/01_etl.py*** : Script Python uses data in "s3://udacity-dend/", processes it, loads tables in database and stores then in parquet files in a bucket. In main(), we choose run localy or with AWS s3.
+* ***/worflow/02_analyticals.ipynb*** : Jupyter Notebook checks the parquet file in the folder `output` (localy), processes queries and visualization with Bokeh uses the parquet files.
+* ***/worflow/03_dataFromS3.ipynb*** : ETL Jupyter Notebook, and script to check tables and parquet files. 
+* ***/worflow/04_checkData.py*** : Script Python to check tables and parquet files.
+* ***/worflow/dl.cfg*** : Credentials file.
+* ***/worflow/log_data/*** and ***/worflow/song_data/*** : Folders of raw data to process localy.
+* ***/worflow/output/*** : Folder where the parquet files will be write if the ETl run localy, organized by tables. 
+* ***/worflow/myouput/*** : Example, my folder `ouput` after running `01_etl.py`.
+* ***/worflow/*** : Example, my `02_analyticals.ipynb` after running `01_etl.py`. 
 
 In this project, we'll collecting input data to AWS S3, data will be loaded into AWS EMR for processing and the queries results will be stored back into AWS S3 as parquet files
 
@@ -153,16 +193,98 @@ In this project, we'll collecting input data to AWS S3, data will be loaded into
 
 ### Collecting input data to AWS S3
 
+```py
+def create_song_data(spark, input_data):
+    """
+    process song data
+    """
+    try:
+        # get filepath to song data file
+        song_data = "song_data/*/*/*/*.json"
+        input_song = input_data + song_data
 
+        # read song data file
+        song_schema = StructType([
+            StructField("num_songs", IntegerType()),
+            (...)
+            StructField("year", IntegerType())
+        ])    
+        df_song = spark.read.json(input_song, schema = song_schema)
+        df_song.printSchema()
+        print('DataFrame schema: %s' % df_song)
+        return df_song
+    except Exception as e:
+        print("Unexpected error: %s" % e)
+```
 ### Process the data with spark 
+```py
+def process_song_data(df_song, output_data):
+    """
+    create songs_table and artists_table
+    write tables to parquet files    
+    """
+    try:
+        # extract columns to create songs table
+        songs_table = df_song \
+            .drop_duplicates(['song_id']) \
+            .select("song_id", "title", "artist_id", "year", "duration") \
+            .filter('song_id != "" and title != "" and artist_id != ""') \
+            .sort("song_id")
+        songs_table.show(2)
 
+        # write songs table to parquet files partitioned by year and artist
+        songs_table.collect()
+        parquet_path = output_data + 'songs_table'
+        write_parquet_song(songs_table, parquet_path)
 
-### Write results tp parquet files
+        # extract columns to create artists table
+        (...) 
+        # write artists table to parquet files
+        (...)
 
-... step by step, how i Proceed in ETL
+        return(songs_table, artists_table)
+    except Exception as e:
+        print("Unexpected error: %s" % e)
+```
+![song_data](image/res_songs_artits.png)
+![log_data](image/res_time.png)
+![log-data](image/res_songplays.png)
+
+### Write results to parquet files
+```py
+def write_parquet_time(table, parquet_path):
+    """
+    write parquet files partionned in year and month
+    """
+    try:
+        table.write.partitionBy(['year', 'month']).parquet(parquet_path, mode = 'overwrite')
+    except Exception as e:
+        print("Unexpected error: %s" % e)
+```
+
+### Sparkify Analytical
+
+Business Questions about this Sparkify dataset:
+* What are the busiest days of the week?
+* What are the busiest times of the day?
+* What are the top songs?
+
+##### What are the busiest days of the week?
+![bokeh_plot1](image/bokeh_plot1.png)  
+For this records, Friday and Wednesday are days of the weekf where there are the most different sessions.
+
+##### What are the busiest times of the day?
+![bokeh_plot2](image/bokeh_plot2.png)  
+Users log on the most between 15h30 and 18h30 in a week.
+
+##### What are the top songs?
+![bokeh_plot3](image/bokeh_plot3.png)  
+For the most listened to songs, the diagramm show that 8 songs are are the top.
+
 
 ## Web-links
+---
 
 * [memo dropDuplicates()](https://stackoverflow.com/questions/38687212/spark-dataframe-drop-duplicates-and-keep-first)  
 * [StructType()](https://sparkbyexamples.com/spark/spark-sql-structtype-on-dataframe/)
-* [Pyspark join](http://www.learnbymarketing.com/1100/pyspark-joins-by-example/)
+* [Pyspark join](http://www.learnbymarketing.com/1100/pyspark-joins-by-example/)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
