@@ -24,11 +24,6 @@ About an ETL pipeline for a data lake hosted on S3.
         - [Sparkify Analytical](#Sparkify-Analytical)
    - [Web-links](#web-links)
 
-# TODO
-* dans set up, fichier work/equirement.txt, enlever les installation non utilisees
-* dans worflox, renommer example-dl.cfg en dl.cfg avant le push final  
-
-
 ## About The Project
 ---
 
@@ -116,16 +111,21 @@ Crl + click in the terminal, on the link beginning as `http://127.0.0...`
 
 8. From the Jupyter terminal, run the install script:   
 `sh ./config/config_jupyter.sh`
- 
+Then go to the next section [Setup your credentials](#Setup-your-credentials)
+
+11. To stop the docker: 
+`docker stack stop jupyter`
+
 9. To stop the services:  
 `docker stack rm jupyter`
 
 10. Then, to leave the docker swarn:  
-`docker swarn leave`
+`docker swarn leave --force`
 
-11. To stop the docker:  
 
 12. To delete the images:  
+
+
 
 ### Setup your credentials
 * Enter your credentials AWS in the `udacity_project4/workflow/dl.cfg` and keep them safe
@@ -137,13 +137,18 @@ Crl + click in the terminal, on the link beginning as `http://127.0.0...`
     ```
 ### Run scripts 
 * Go to the directory udacity_project4/worflow, open a terminal in Jupyter and run the the script to connect AWS S3, process datasets and write parquet file locally in worflow/ouput:  
-`python3 01_etl.py`
+`python3 01_etl.py`  
+By default, datasets will be loaded from "udacity_project4/worflow/"
 
 * Check the parquet file in **worflow/output** and make some queries with parquet files, open and run:  
 `02_analyticals.ipynb`
 
 * You may want use the jupyter notebook to run the **etl** process, open and run:  
 `03_DataFromS3.ipynb`. An other script inside, **04_checkData.py**, check the data and the parquet files. 
+
+* [Stop and delete Docker](#To-stop-the-docker)
+
+* Delete the folder `udacity_project4`
 
 #### To run in AWS EMR (ELASTIC MAP REDUCE)
 * Create your own Amazon S3 Bucket and Amazon EMR cluster

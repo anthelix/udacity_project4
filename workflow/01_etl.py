@@ -273,8 +273,8 @@ def process_log_data(df_log, df_song, output_data):
         print("Unexpected error: %s" % e)
 
 def main():
-    input_data = "s3a://udacity-dend/"              # Data from Udacity
-    # input_data = ""                               # Run locally
+    # input_data = "s3a://udacity-dend/"            # Data from Udacity
+    input_data = ""                               # Run locally
 
     # output_data = "s3a://dend-paris/sparkify/"    # Anthelix bucket(me)
     # output-data = "s3a://<YOUR_BUCKET>/"          # Visitor bucket
