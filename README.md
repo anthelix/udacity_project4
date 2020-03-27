@@ -102,8 +102,14 @@ Edit: I would like practice postgres and Docker, I do that later and focus to th
 `docker swarm init` 
 
 6. Deploy Docker Stack from the `udacity_project4` directory    
-`docker stack deploy -c stack.yml jupyter`      
-And to check : `docker stack ps jupyter --no-trunc`
+`docker stack deploy -c stack.yml jupyter`  
+    And to check : `docker stack ps jupyter --no-trunc`  
+Memo Commands:  
+  deploy  : Deploy a new stack or update an existing stack  
+  ls  : List stacks
+  ps  : List the tasks in the stack  
+  rm  : Remove one or more stacks  
+  services  : List the services in the stack  
 
 7. Retrieve the token to log into Jupyter.   
 `docker logs $(docker ps | grep jupyter_spark | awk '{print $NF}')`.   
@@ -113,19 +119,15 @@ Crl + click in the terminal, on the link beginning as `http://127.0.0...`
 `sh ./config/config_jupyter.sh`
 Then go to the next section [Setup your credentials](#Setup-your-credentials)
 
-11. To stop the docker: 
-`docker stack stop jupyter`
-
 9. To stop the services:  
 `docker stack rm jupyter`
 
 10. Then, to leave the docker swarn:  
-`docker swarn leave --force`
+`docker swarm leave --force`
 
-
-12. To delete the images:  
-
-
+12. To delete the images:
+* `docker images`
+* `docker rmi <IMAGE ID>`
 
 ### Setup your credentials
 * Enter your credentials AWS in the `udacity_project4/workflow/dl.cfg` and keep them safe
@@ -151,13 +153,17 @@ By default, datasets will be loaded from "udacity_project4/worflow/"
 * Delete the folder `udacity_project4`
 
 #### To run in AWS EMR (ELASTIC MAP REDUCE)
-* Create your own Amazon S3 Bucket and Amazon EMR cluster
+* Create your own Amazon S3 Bucket and Amazon EMR cluster  
+  
 ![memo](image/configEmr.png)
 ![memo](image/config_s3bucket.png)
 
-* Update the outpath within `def main()` in  10_etl_emr.py to point your s3 bucket
+* Update the the input_data path and output_data path within `def main()` in  01_etl.py to point your s3 bucket  
 
-* Run `python 10_etl_emr.py` and check with `02_analyticals.ipynb` and your own `parquet_path` 
+* When the cluster is ready, ssh into the master node from the terminal
+`ssh -i <~/path to your key .pem> hadoop@<your endpoint EMR>`
+
+* Then transfer files to Hadoop and run `etl.py`
 
 ## Worflow
 ---
