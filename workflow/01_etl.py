@@ -8,17 +8,17 @@ Choose in the main():
     output_data = "s3a://<YOUR BUCKET>" 
 """
 
-from pyspark.sql.types import TimestampType, StructType, StructField, FloatType, IntegerType, LongType, StringType, DataType
+from pyspark.sql.types import TimestampType, StructType, StructField, FloatType, IntegerType, LongType, StringType
 from pyspark.sql.functions import year, month, dayofmonth, hour, weekofyear
 from pyspark.sql.functions import monotonically_increasing_id
-from pyspark import SparkContext, SparkConf
+# from pyspark import SparkContext, SparkConf
 from pyspark.sql.functions import udf,col
 from pyspark.sql import functions as F
 from pyspark.sql import SparkSession
 from pyspark.sql import types as T
 from datetime import datetime
 import configparser
-import pandas as pd
+# import pandas as pd 
 import os
 
 def get_credentials():
