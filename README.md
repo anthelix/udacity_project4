@@ -25,13 +25,11 @@ About an ETL pipeline for a data lake hosted on S3.
    - [Web-links](#web-links)
 
 ## About The Project
----
 
 A music streaming startup, Sparkify, has grown their user base and song database even more and want to move their data warehouse to a data lake. Their data resides in S3, in a directory of JSON logs on user activity on the app, as well as a directory with JSON metadata on the songs in their app.
 They'd like a data engineer to build an ETL pipeline that extracts their data from Amazon S3, processes them using Spark, and loads the data into S3 as a set of dimmensionnal tables for their analytics team to continue finding insights in what songs their users are listening to.
  
 ## Purpose
----
 
 The purpose of this project is to build an ETL pipeline for data stored in S3, using Spark and Hadoop tools.
 * Load data from S3
@@ -39,7 +37,6 @@ The purpose of this project is to build an ETL pipeline for data stored in S3, u
 * Load the data results into S3
 
 ## Getting Started
----
 
 ### Dataset
 
@@ -71,7 +68,6 @@ And below is an example of what the data in a log file, 2018-11-12-events.json, 
 ![log dataset image](image/log_dataset.png)
 
 ## To Run localy
----
 
 ### Setup Docker
 
@@ -166,7 +162,7 @@ By default, datasets will be loaded from "udacity_project4/worflow/"
 * Then transfer files to Hadoop and run `etl.py`
 
 ## Worflow
----
+
 This project run with Docker. 
 * ***./worflow/config/*** : configuration files
 * ***./stack.yml*** : Dockerfile
@@ -294,7 +290,6 @@ For the most listened to songs, the diagramm show that 8 songs are are the top.
 
 
 ## Web-links
----
 
 * [memo dropDuplicates()](https://stackoverflow.com/questions/38687212/spark-dataframe-drop-duplicates-and-keep-first)  
 * [StructType()](https://sparkbyexamples.com/spark/spark-sql-structtype-on-dataframe/)
